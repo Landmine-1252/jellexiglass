@@ -112,7 +112,6 @@ a,
 .actionSheet,
 .paperList,
 .homeLibraryButton,
-.itemSelectionPanel,
 .mainDetailButtons,
 .detailSectionContent,
 .trackSelections,
@@ -137,7 +136,6 @@ a,
 .actionSheet,
 .paperList,
 .homeLibraryButton,
-.itemSelectionPanel,
 .detailSectionContent,
 .trackSelections,
 .detailsGroupItem,
@@ -156,7 +154,6 @@ a,
     .actionSheet,
     .paperList,
     .homeLibraryButton,
-    .itemSelectionPanel,
     .mainDetailButtons,
     .detailSectionContent,
     .trackSelections,
@@ -1164,111 +1161,9 @@ option {
     }
 }
 
-/* Card hit-area and cursor honesty
-   Keeps decorative card surfaces from promising clicks unless a real Jellyfin
-   card target can own the expanded hit area. */
-.itemsContainer > .card {
-    cursor: default !important;
-}
-
-.itemsContainer > .card > .cardBox {
-    position: relative !important;
-    isolation: isolate !important;
-    overflow: visible !important;
-    cursor: default !important;
-}
-
-/* Replace the broad .cardBox:hover lift so blank decorative space does not
-   animate like a link before we know there is a clickable target under it. */
-.itemsContainer > .card > .cardBox:hover {
-    transform: none !important;
-    border-color: rgba(255, 255, 255, 0.07) !important;
-    box-shadow: none !important;
-}
-
-/* Decorative card pieces keep a default cursor. Real links/buttons below
-   opt back into pointer behavior. */
-.itemsContainer > .card > .cardBox :is(
-    .cardContent,
-    .cardPadder,
-    .cardOverlayContainer,
-    .cardImageContainer,
-    .cardText,
-    .cardText-secondary,
-    .innerCardFooter
-) {
-    cursor: default !important;
-}
-
-/* Real Jellyfin card targets. The pseudo-element belongs to the clickable
-   target, so clicks still go to Jellyfin's own link/button handler. */
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]),
-.itemsContainer > .card > .cardBox > :is(a[href], button, [role="button"], [data-action]),
-.itemsContainer > .card > .cardBox > .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox :is(.textActionButton, .button-link),
-.itemsContainer > .card > .cardBox .cardText :is(a[href], button, [role="button"], [data-action]) {
-    cursor: pointer !important;
-}
-
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action])::after,
-.itemsContainer > .card > .cardBox > :is(a[href], button, [role="button"], [data-action])::after,
-.itemsContainer > .card > .cardBox > .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer)::after,
-.itemsContainer > .card > .cardBox :is(.textActionButton, .button-link)::after,
-.itemsContainer > .card > .cardBox .cardText :is(a[href], button, [role="button"], [data-action])::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    display: block;
-    border-radius: var(--plg-radius-small);
-    background: transparent;
-    pointer-events: auto;
-}
-
-/* Restore the polished hover lift only when the hover is on a real card target
-   or an expanded target pseudo-element, not merely on empty card chrome. */
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover),
-.itemsContainer > .card > .cardBox:focus-within {
-    transform: translateY(-2px) scale(1.006) !important;
-    border-color: rgba(255, 255, 255, 0.18) !important;
-    box-shadow: none !important;
-}
-
-/* Overlay controls must stay above the expanded card target. */
-.itemsContainer > .card > .cardBox .cardOverlayContainer,
-.itemsContainer > .card > .cardBox .cardOverlayContainer :is(button, [role="button"], [data-action], .emby-button, .paper-icon-button-light),
-.itemsContainer > .card > .cardBox :is(
-    .cardOverlayButton,
-    .cardOverlayFab,
-    .cardOverlayMenu,
-    .cardOverlayButtonIcon,
-    .itemActionButton,
-    .paper-icon-button-light,
-    .emby-button
-) {
-    position: relative !important;
-    z-index: 20 !important;
-}
-
-.itemsContainer > .card > .cardBox .cardOverlayContainer :is(button, [role="button"], [data-action], .emby-button, .paper-icon-button-light),
-.itemsContainer > .card > .cardBox :is(
-    .cardOverlayButton,
-    .cardOverlayFab,
-    .cardOverlayMenu,
-    .itemActionButton,
-    .paper-icon-button-light,
-    .emby-button
-) {
-    cursor: pointer !important;
-}
-
 /* Media card hover shadow refinement
-   Keeps the card hit area honest while replacing the heavy rectangular
-   hover shadow with a softer image-surface elevation. */
+   Replaces heavy rectangular card shadows with softer image-surface elevation
+   without changing Jellyfin's native click or overlay behavior. */
 .itemsContainer > .card > .cardBox {
     background-color: transparent !important;
     box-shadow: none !important;
@@ -1303,14 +1198,14 @@ option {
     box-shadow: none !important;
 }
 
-/* Real card targets still lift, but with a much smaller movement and no outer
-   card shadow. This preserves the honest hit-area behavior above. */
+/* Hover feedback stays visual only: no expanded click targets or overlay
+   layering changes. */
 .itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
 .itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
 .itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
 .itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
 .itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
-    transform: translateY(-2px) scale(1.006) !important;
+    transform: none !important;
     border-color: rgba(255, 255, 255, 0.18) !important;
     box-shadow: none !important;
 }
@@ -1325,7 +1220,7 @@ option {
         0 2px 7px rgba(0, 0, 0, 0.18),
         inset 0 0 0 1px rgba(255, 255, 255, 0.11),
         0 0 14px rgba(var(--plg-accent-rgb), 0.08) !important;
-    filter: brightness(1.03) saturate(1.03) !important;
+    filter: none !important;
 }
 
 /* Wide episode/backdrop cards get a slightly flatter shadow so they do not
@@ -1351,12 +1246,12 @@ option {
 /* Text and footer regions should remain readable without casting blocky depth. */
 .itemsContainer > .card > .cardBox :is(.cardText, .cardText-secondary, .textActionButton, .button-link) {
     box-shadow: none !important;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.42) !important;
+    text-shadow: none !important;
 }
 
 /* Keyboard focus remains visible, but the ring lives on the media surface. */
 .itemsContainer > .card > .cardBox:focus-within {
-    transform: translateY(-1px) !important;
+    transform: none !important;
     border-color: rgba(var(--plg-accent-rgb), 0.46) !important;
     box-shadow: none !important;
 }
@@ -1536,5 +1431,626 @@ select:disabled {
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
         transition-duration: 1ms !important;
+    }
+}
+
+/* Plex-style readability and contrast pass
+   Darkens the app, sharpens text hierarchy, and reserves amber for active
+   states, links, progress, and focus accents. */
+:root {
+    --plg-bg: #0b0b0c;
+    --plg-bg-elevated: #151516;
+    --plg-surface: rgba(24, 24, 26, 0.92);
+    --plg-surface-strong: rgba(28, 28, 30, 0.96);
+    --plg-glass: rgba(20, 20, 22, 0.82);
+    --plg-glass-heavy: rgba(14, 14, 16, 0.94);
+    --plg-glass-hover: rgba(255, 255, 255, 0.075);
+    --plg-text: rgba(255, 255, 255, 0.96);
+    --plg-muted: rgba(255, 255, 255, 0.68);
+    --plg-dim: rgba(255, 255, 255, 0.46);
+    --plg-border: rgba(255, 255, 255, 0.09);
+    --plg-border-strong: rgba(255, 255, 255, 0.18);
+    --plg-highlight: rgba(255, 255, 255, 0.08);
+    --plg-shadow: 0 16px 38px rgba(0, 0, 0, 0.34);
+    --plg-shadow-small: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* Darker app base with less haze behind media rows. */
+html,
+body,
+.backgroundContainer:not(.withBackdrop):not(.backgroundContainer-transparent),
+.noBackdropTransparency .detailPagePrimaryContainer,
+.noBackdropTransparency .detailPageSecondaryContainer {
+    background: var(--plg-bg) !important;
+    color: var(--plg-text) !important;
+}
+
+.backgroundContainer.withBackdrop::after {
+    background:
+        linear-gradient(90deg, var(--plg-bg) 0%, rgba(11, 11, 12, 0.78) 34%, rgba(11, 11, 12, 0.26) 70%),
+        linear-gradient(0deg, var(--plg-bg) 0%, rgba(11, 11, 12, 0) 48%) !important;
+}
+
+/* Reduce glass haze on common surfaces where readability matters. */
+.skinHeader,
+.mainDrawer,
+.dialog,
+.actionSheet,
+.paperList,
+.homeLibraryButton,
+.mainDetailButtons,
+.detailSectionContent,
+.trackSelections,
+.detailsGroupItem,
+.toastVisible,
+.sliderBubble,
+.volumeOsd,
+.subtitleappearance-preview,
+.upNextContainer:not(#skipIntro),
+.guide-channelHeaderCell,
+.programCell-active {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+        var(--plg-glass) !important;
+    border-color: var(--plg-border) !important;
+    box-shadow: var(--plg-shadow-small) !important;
+}
+
+/* Header and tabs: Plex-like dark bar with quiet active pills. */
+.skinHeader {
+    background: rgba(12, 12, 13, 0.96) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075) !important;
+    box-shadow: none !important;
+}
+
+.layout-desktop .emby-tab-button {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 14px !important;
+    border-radius: var(--plg-radius-pill) !important;
+    color: rgba(255, 255, 255, 0.66) !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+}
+
+.layout-desktop .emby-tab-button:hover {
+    background: rgba(255, 255, 255, 0.055) !important;
+    color: var(--plg-text) !important;
+}
+
+.layout-desktop .headerTabs .emby-tab-button-active,
+.layout-desktop .emby-tab-button-active {
+    background: rgba(var(--plg-accent-rgb), 0.18) !important;
+    color: var(--plg-accent-strong) !important;
+}
+
+/* Sidebar: darker charcoal rail, clearer labels, amber only for selected rows. */
+.layout-desktop .mainDrawer {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0)),
+        #151516 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.075) !important;
+    box-shadow: none !important;
+}
+
+.mainDrawer .navMenuOption,
+.navMenuOption {
+    color: rgba(255, 255, 255, 0.72) !important;
+    font-weight: 500 !important;
+}
+
+.mainDrawer .navMenuOption:hover:not(.navMenuOption-selected),
+.navMenuOption:hover:not(.navMenuOption-selected) {
+    background: rgba(255, 255, 255, 0.065) !important;
+    color: var(--plg-text) !important;
+    transform: none !important;
+}
+
+.mainDrawer .navMenuOption-selected,
+.navMenuOption-selected {
+    background: rgba(var(--plg-accent-rgb), 0.16) !important;
+    border-color: rgba(var(--plg-accent-rgb), 0.24) !important;
+    color: var(--plg-accent-strong) !important;
+    box-shadow:
+        inset 3px 0 0 rgba(var(--plg-accent-rgb), 0.95),
+        inset 0 0 0 1px rgba(var(--plg-accent-rgb), 0.22) !important;
+}
+
+.mainDrawer h3,
+.mainDrawer .navMenuSectionTitle,
+.mainDrawer .sectionTitle {
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-weight: 600 !important;
+}
+
+/* Page headings and section titles get stronger hierarchy and no glow. */
+.sectionTitle,
+.sectionTitleTextButton,
+.pageTitle,
+h1,
+h2,
+h3 {
+    color: var(--plg-text) !important;
+    text-shadow: none !important;
+    letter-spacing: 0 !important;
+}
+
+.sectionTitle {
+    font-size: 1.45rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.sectionTitleTextButton {
+    color: var(--plg-text) !important;
+    font-weight: 700 !important;
+}
+
+.sectionTitleTextButton:hover {
+    color: var(--plg-accent-strong) !important;
+}
+
+/* Card text hierarchy: white titles, gray metadata, amber only on hover/links. */
+.cardText,
+.itemsContainer .cardText,
+.cardText-first,
+.cardText.cardTextCentered,
+.itemsContainer .textActionButton {
+    color: rgba(255, 255, 255, 0.94) !important;
+    font-weight: 600 !important;
+    text-shadow: none !important;
+}
+
+.cardText-secondary,
+.itemsContainer .cardText-secondary,
+.secondaryText,
+.listItemBodyText-secondary,
+.mediaInfoItem,
+.itemMiscInfo {
+    color: rgba(255, 255, 255, 0.58) !important;
+    font-weight: 500 !important;
+    text-shadow: none !important;
+}
+
+a,
+.button-link,
+.sectionTitleTextButton:hover {
+    color: var(--plg-accent-strong) !important;
+}
+
+.itemsContainer .cardText a,
+.itemsContainer .cardText .button-link,
+.itemsContainer .textActionButton {
+    color: rgba(255, 255, 255, 0.94) !important;
+}
+
+.itemsContainer .cardText a:hover,
+.itemsContainer .cardText .button-link:hover,
+.itemsContainer .textActionButton:hover {
+    color: var(--plg-accent-strong) !important;
+}
+
+.cardTextCentered,
+.cardText.cardTextCentered {
+    text-align: center !important;
+}
+
+/* Cleaner cards: remove outer block shadows; keep subtle depth on media only. */
+.itemsContainer > .card > .cardBox {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.itemsContainer > .card > .cardBox :is(.cardContent, .cardImageContainer) {
+    background-color: rgba(255, 255, 255, 0.035) !important;
+    border-radius: var(--plg-radius-small) !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.26),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.045) !important;
+}
+
+.itemsContainer > .card > .cardBox:hover {
+    transform: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Hover feedback stays visual only and lets Jellyfin keep native card actions. */
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
+    transform: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer) {
+    filter: none !important;
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.30),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+        0 0 12px rgba(var(--plg-accent-rgb), 0.07) !important;
+}
+
+.itemsContainer > .card > .cardBox :is(.cardText, .cardText-secondary) {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Progress and primary accents remain Plex-like amber. */
+.itemProgressBarForeground,
+.mdl-slider-background-lower,
+.iconOsdProgressInner,
+progress[aria-valuenow]::before,
+progress::-webkit-progress-value,
+progress::-moz-progress-bar {
+    background: var(--plg-accent) !important;
+}
+
+.itemProgressBar:not(.playbackProgress):not(.transcodingProgress):not(.backgroundProgress) {
+    height: 6px !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+}
+
+/* Lists and metadata panels use white primary text with gray supporting text. */
+.listItem {
+    color: var(--plg-text) !important;
+}
+
+.listItem:hover {
+    background: rgba(255, 255, 255, 0.065) !important;
+}
+
+.listItemBodyText {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.listItemBodyText-secondary {
+    color: rgba(255, 255, 255, 0.56) !important;
+}
+
+.detailSectionContent,
+.trackSelections,
+.layout-desktop .itemDetailsGroup {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+        rgba(22, 22, 24, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.095) !important;
+}
+
+.detailsGroupItem .label,
+.trackSelections .selectContainer .selectLabel,
+.layout-desktop .detailsGroupItem .label {
+    color: rgba(255, 255, 255, 0.48) !important;
+    font-weight: 600 !important;
+}
+
+.layout-desktop .detailsGroupItem .content {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Forms and dropdowns keep the improved spacing while getting sharper contrast. */
+.emby-input,
+.emby-textarea,
+.emby-select,
+.emby-select-withcolor,
+select:enabled {
+    background: rgba(255, 255, 255, 0.075) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: var(--plg-text) !important;
+}
+
+.emby-input:focus,
+.emby-textarea:focus,
+.emby-select:focus,
+.emby-select-withcolor:focus,
+select:enabled:focus {
+    border-color: rgba(var(--plg-accent-rgb), 0.9) !important;
+    box-shadow:
+        0 0 0 2px rgba(var(--plg-accent-rgb), 0.24),
+        0 0 16px rgba(var(--plg-accent-rgb), 0.12) !important;
+}
+
+.trackSelections .selectContainer select:disabled,
+.trackSelections .selectContainer .emby-select:disabled,
+.trackSelections .selectContainer .emby-select-withcolor:disabled {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Buttons and icon hover states are restrained; submit remains amber. */
+.button-submit,
+.btnSubmit,
+.emby-button.raised.button-submit {
+    background: var(--plg-accent) !important;
+    color: #111 !important;
+    font-weight: 700 !important;
+}
+
+.emby-button.raised:not(.button-submit),
+.raised:not(.button-submit),
+.fab {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.13) !important;
+    color: var(--plg-text) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled),
+    .button-flat:hover,
+    .listItemImageButton:hover {
+        background: rgba(255, 255, 255, 0.075) !important;
+        color: var(--plg-text) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .itemsContainer > .card > .cardBox,
+    .itemsContainer > .card > .cardBox:hover {
+        transform: none !important;
+    }
+
+    .itemsContainer > .card > .cardBox:hover :is(.cardContent, .cardImageContainer) {
+        filter: none !important;
+    }
+}
+
+/* Plex-like sharp card hover and typography refinement
+   Keeps card geometry and text rasterization stable. Hover feedback comes from
+   rings, inset highlights, and image-only treatment rather than scaling. */
+body,
+button,
+input,
+textarea,
+select,
+.emby-button,
+.cardText,
+.cardText-secondary,
+.listItemBodyText,
+.sectionTitle,
+.sectionTitleTextButton {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Oxygen-Sans,
+        Ubuntu,
+        Cantarell,
+        "Helvetica Neue",
+        sans-serif !important;
+}
+
+/* Media card containers must not move, scale, or create blurry text on hover. */
+.itemsContainer > .card,
+.itemsContainer > .card > .cardBox,
+.card.show-animation:focus > .cardBox {
+    transform: none !important;
+    will-change: auto !important;
+    backface-visibility: hidden !important;
+}
+
+.itemsContainer > .card > .cardBox {
+    transition:
+        border-color 140ms ease,
+        box-shadow 140ms ease,
+        background-color 140ms ease !important;
+}
+
+.itemsContainer > .card > .cardBox:hover,
+.itemsContainer > .card > .cardBox:focus-within,
+.itemsContainer > .card:focus > .cardBox,
+.itemsContainer > .card:focus-visible > .cardBox,
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Image/content surfaces provide selection feedback without scaling parents. */
+.itemsContainer > .card > .cardBox :is(.cardContent, .cardImageContainer) {
+    border-radius: var(--plg-radius-small) !important;
+    overflow: hidden !important;
+    transform: none !important;
+    filter: none !important;
+    transition:
+        box-shadow 140ms ease,
+        background-color 140ms ease,
+        opacity 140ms ease !important;
+}
+
+/* Hover ring and subtle inset brightening; no filter on containers that may
+   include text or controls. */
+.itemsContainer > .card > .cardBox:hover :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer) {
+    filter: none !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(var(--plg-accent-rgb), 0.70),
+        inset 0 0 0 999px rgba(255, 255, 255, 0.025),
+        0 8px 18px rgba(0, 0, 0, 0.26) !important;
+}
+
+/* If Jellyfin renders a separate image node, brighten only that node. */
+.itemsContainer > .card > .cardBox:hover .cardImage,
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) .cardImage,
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) .cardImage {
+    filter: brightness(1.055) saturate(1.035) !important;
+}
+
+/* Keyboard focus gets a stronger amber ring without moving the card. */
+.itemsContainer > .card > .cardBox:focus-within :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card:focus > .cardBox :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card:focus-visible > .cardBox :is(.cardContent, .cardImageContainer) {
+    filter: none !important;
+    box-shadow:
+        inset 0 0 0 2px rgba(var(--plg-accent-rgb), 0.96),
+        0 0 0 4px rgba(var(--plg-accent-rgb), 0.22),
+        0 8px 18px rgba(0, 0, 0, 0.26) !important;
+}
+
+/* Card text should never resize, scale, thicken, glow, or inherit filters on hover. */
+.itemsContainer > .card :is(.cardText, .cardText-first, .cardText-secondary, .textActionButton, .button-link) {
+    transform: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+    letter-spacing: 0 !important;
+    font-size: inherit !important;
+    transition:
+        color 140ms ease,
+        opacity 140ms ease,
+        text-decoration-color 140ms ease !important;
+}
+
+.itemsContainer > .card :is(.cardText, .cardText-first, .textActionButton) {
+    color: rgba(255, 255, 255, 0.94) !important;
+    font-weight: 600 !important;
+    line-height: 1.28 !important;
+}
+
+.itemsContainer > .card .cardText-secondary {
+    color: rgba(255, 255, 255, 0.58) !important;
+    font-weight: 400 !important;
+    line-height: 1.28 !important;
+}
+
+.itemsContainer > .card > .cardBox:hover :is(.cardText, .cardText-first, .textActionButton) {
+    color: #fff !important;
+    font-size: inherit !important;
+    font-weight: 600 !important;
+    transform: none !important;
+}
+
+.itemsContainer > .card > .cardBox:hover .cardText-secondary {
+    color: rgba(255, 255, 255, 0.72) !important;
+    font-size: inherit !important;
+    font-weight: 400 !important;
+    transform: none !important;
+}
+
+.itemsContainer > .card :is(a, a:hover, .button-link, .button-link:hover) {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    transform: none !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: 2px !important;
+}
+
+.itemsContainer > .card :is(a:hover, .button-link:hover) {
+    color: #fff !important;
+    text-decoration-color: rgba(var(--plg-accent-rgb), 0.9) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .itemsContainer > .card,
+    .itemsContainer > .card > .cardBox,
+    .itemsContainer > .card > .cardBox:hover,
+    .itemsContainer > .card > .cardBox:focus-within {
+        transform: none !important;
+    }
+
+    .itemsContainer > .card > .cardBox:hover :is(.cardContent, .cardImageContainer, .cardImage),
+    .itemsContainer > .card > .cardBox:focus-within :is(.cardContent, .cardImageContainer, .cardImage) {
+        filter: none !important;
+    }
+}
+
+/* Detail page aligned panel widths
+   Makes media tracks, overview, links, and metadata share one left-aligned
+   column for a cleaner Plex-like detail layout. */
+:root {
+    --plg-detail-panel-width: 44rem;
+}
+
+.layout-desktop .detailSection {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+}
+
+.layout-desktop :is(
+    .detailSectionContent,
+    .trackSelections,
+    .itemDetailsGroup,
+    .detailsGroup,
+    .recordingFields,
+    .seriesRecordingEditor
+) {
+    box-sizing: border-box !important;
+    width: min(100%, var(--plg-detail-panel-width)) !important;
+    max-width: min(100%, var(--plg-detail-panel-width)) !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.layout-desktop .itemDetailsGroup:has(> .detailsGroupItem:not(.hide)) {
+    box-sizing: border-box !important;
+    width: min(100%, var(--plg-detail-panel-width)) !important;
+    max-width: min(100%, var(--plg-detail-panel-width)) !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.layout-desktop :is(.detailSectionContent, .trackSelections) {
+    padding: 18px 22px !important;
+}
+
+.layout-desktop :is(.itemDetailsGroup, .detailsGroup) {
+    padding: 8px 0 !important;
+    border-radius: var(--plg-radius) !important;
+    overflow: hidden !important;
+}
+
+.layout-desktop .detailsGroupItem {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.layout-desktop .trackSelections :is(.selectContainer, .emby-select, .emby-select-withcolor, select) {
+    max-width: 100% !important;
+}
+
+@media (min-width: 100em) {
+    :root {
+        --plg-detail-panel-width: 48rem;
+    }
+}
+
+@media (max-width: 48em) {
+    :root {
+        --plg-detail-panel-width: 100%;
+    }
+
+    .layout-mobile :is(
+        .detailSectionContent,
+        .trackSelections,
+        .itemDetailsGroup,
+        .detailsGroup
+    ),
+    .layout-mobile .itemDetailsGroup:has(> :not(.hide)) {
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 }
