@@ -589,9 +589,9 @@ progress::-moz-progress-bar {
 }
 
 .itemsContainer > .card > .cardBox:hover {
-    transform: translateY(-5px) scale(1.018);
-    border-color: var(--plg-border-strong) !important;
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48) !important;
+    transform: none !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: none !important;
 }
 
 .cardContent,
@@ -1233,9 +1233,9 @@ option {
 .itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
 .itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover),
 .itemsContainer > .card > .cardBox:focus-within {
-    transform: translateY(-5px) scale(1.018) !important;
-    border-color: var(--plg-border-strong) !important;
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48) !important;
+    transform: translateY(-2px) scale(1.006) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    box-shadow: none !important;
 }
 
 /* Overlay controls must stay above the expanded card target. */
@@ -1264,6 +1264,267 @@ option {
     .emby-button
 ) {
     cursor: pointer !important;
+}
+
+/* Media card hover shadow refinement
+   Keeps the card hit area honest while replacing the heavy rectangular
+   hover shadow with a softer image-surface elevation. */
+.itemsContainer > .card > .cardBox {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background-color 160ms ease !important;
+}
+
+/* Blank/decorative card space should not cast a big panel shadow. */
+.itemsContainer > .card > .cardBox:hover {
+    transform: none !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: none !important;
+}
+
+/* The visual media surface gets the default soft depth, not the text area. */
+.itemsContainer > .card > .cardBox :is(.cardContent, .cardImageContainer) {
+    border-radius: var(--plg-radius-small) !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.075) !important;
+    transition:
+        box-shadow 160ms ease,
+        filter 160ms ease,
+        background-color 160ms ease !important;
+}
+
+.itemsContainer > .card > .cardBox :is(.cardOverlayContainer, .innerCardFooter, .fullInnerCardFooter) {
+    border-radius: var(--plg-radius-small) !important;
+    box-shadow: none !important;
+}
+
+/* Real card targets still lift, but with a much smaller movement and no outer
+   card shadow. This preserves the honest hit-area behavior above. */
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
+    transform: translateY(-2px) scale(1.006) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    box-shadow: none !important;
+}
+
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer) {
+    box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.28),
+        0 2px 7px rgba(0, 0, 0, 0.18),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.11),
+        0 0 14px rgba(var(--plg-accent-rgb), 0.08) !important;
+    filter: brightness(1.03) saturate(1.03) !important;
+}
+
+/* Wide episode/backdrop cards get a slightly flatter shadow so they do not
+   read as a dark rectangle under the row. */
+.itemsContainer > .card:is(.backdropCard, .overflowBackdropCard) > .cardBox:has(:is(a[href], button, [role="button"], [data-action], .textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer) {
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.24),
+        0 2px 6px rgba(0, 0, 0, 0.16),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+        0 0 12px rgba(var(--plg-accent-rgb), 0.07) !important;
+}
+
+/* Portrait, season, square, and people cards stay tighter to avoid a black
+   block below the poster or cast label. */
+.itemsContainer > .card:is(.portraitCard, .overflowPortraitCard, .squareCard, .overflowSquareCard) > .cardBox:has(:is(a[href], button, [role="button"], [data-action], .textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer) {
+    box-shadow:
+        0 9px 20px rgba(0, 0, 0, 0.26),
+        0 2px 6px rgba(0, 0, 0, 0.16),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.11),
+        0 0 12px rgba(var(--plg-accent-rgb), 0.075) !important;
+}
+
+/* Text and footer regions should remain readable without casting blocky depth. */
+.itemsContainer > .card > .cardBox :is(.cardText, .cardText-secondary, .textActionButton, .button-link) {
+    box-shadow: none !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.42) !important;
+}
+
+/* Keyboard focus remains visible, but the ring lives on the media surface. */
+.itemsContainer > .card > .cardBox:focus-within {
+    transform: translateY(-1px) !important;
+    border-color: rgba(var(--plg-accent-rgb), 0.46) !important;
+    box-shadow: none !important;
+}
+
+.itemsContainer > .card > .cardBox:focus-within :is(.cardContent, .cardImageContainer) {
+    box-shadow:
+        0 7px 16px rgba(0, 0, 0, 0.22),
+        inset 0 0 0 2px rgba(var(--plg-accent-rgb), 0.64) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .itemsContainer > .card > .cardBox,
+    .itemsContainer > .card > .cardBox:hover,
+    .itemsContainer > .card > .cardBox:focus-within {
+        transform: none !important;
+    }
+
+    .itemsContainer > .card > .cardBox:hover :is(.cardContent, .cardImageContainer),
+    .itemsContainer > .card > .cardBox:focus-within :is(.cardContent, .cardImageContainer) {
+        filter: none !important;
+    }
+}
+
+/* Select and dropdown alignment refinement
+   Fixes cramped closed select text in media track rows while preserving the
+   glassy dark control style and amber focus treatment. */
+.emby-select,
+.emby-select-withcolor,
+select:enabled {
+    box-sizing: border-box !important;
+    min-height: 36px !important;
+    height: 36px !important;
+    padding: 0 42px 0 14px !important;
+    border: 1px solid var(--plg-border) !important;
+    border-radius: var(--plg-radius-small) !important;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.055)),
+        rgba(18, 18, 22, 0.62) !important;
+    color: var(--plg-text) !important;
+    line-height: 34px !important;
+    text-indent: 0 !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055) !important;
+}
+
+/* Jellyfin media details selects are full-width native selects inside
+   selectContainer wrappers; keep the field aligned without moving labels. */
+.selectContainer .emby-select,
+.selectContainer .emby-select-withcolor,
+.trackSelections .emby-select,
+.trackSelections .emby-select-withcolor,
+.detailSectionContent .emby-select,
+.detailSectionContent .emby-select-withcolor {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding-left: 14px !important;
+    padding-right: 42px !important;
+}
+
+.trackSelections .selectContainer {
+    min-width: 0 !important;
+}
+
+.trackSelections .selectContainer select,
+.trackSelections .selectContainer .emby-select,
+.trackSelections .selectContainer .emby-select-withcolor {
+    margin: 0 !important;
+}
+
+/* The custom Jellyfin arrow gets reserved space on the right and remains
+   visually centered over the padded select field. */
+.selectContainer .selectArrowContainer {
+    right: 8px !important;
+    width: 28px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--plg-muted) !important;
+    pointer-events: none !important;
+}
+
+.selectContainer .selectArrow {
+    color: inherit !important;
+    opacity: 0.9 !important;
+}
+
+/* Keep labels stable while improving the control itself. */
+.trackSelections .selectLabel,
+.detailSectionContent .selectLabel,
+.selectContainer .selectLabel {
+    margin-bottom: 6px !important;
+    color: var(--plg-dim) !important;
+}
+
+/* Focus/open state: amber border and glow without changing field dimensions. */
+.emby-select:focus,
+.emby-select-withcolor:focus,
+select:enabled:focus {
+    outline: none !important;
+    border-color: rgba(var(--plg-accent-rgb), 0.92) !important;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.115), rgba(255, 255, 255, 0.07)),
+        rgba(20, 20, 24, 0.72) !important;
+    box-shadow:
+        0 0 0 2px rgba(var(--plg-accent-rgb), 0.24),
+        0 0 18px rgba(var(--plg-accent-rgb), 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.075) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .emby-select:hover,
+    .emby-select-withcolor:hover,
+    select:enabled:hover {
+        border-color: rgba(255, 255, 255, 0.26) !important;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.065)),
+            rgba(20, 20, 24, 0.68) !important;
+    }
+}
+
+/* Native dropdown menus have limited styling support, so keep options simple
+   and readable on dark backgrounds. */
+.emby-select option,
+.emby-select-withcolor option,
+select:enabled option,
+option {
+    background-color: #3f4046 !important;
+    color: var(--plg-text) !important;
+    padding: 8px 12px !important;
+}
+
+.emby-select:disabled,
+.emby-select-withcolor:disabled,
+select:disabled {
+    opacity: 0.52 !important;
+    cursor: not-allowed !important;
+}
+
+/* Disabled media track selects are read-only metadata, not unavailable
+   controls. Render Video/Audio values like plain text while keeping enabled
+   fields such as Subtitles styled as real dropdowns. */
+.trackSelections .selectContainer select:disabled,
+.trackSelections .selectContainer .emby-select:disabled,
+.trackSelections .selectContainer .emby-select-withcolor:disabled {
+    height: 28px !important;
+    min-height: 28px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--plg-text) !important;
+    opacity: 1 !important;
+    cursor: default !important;
+    line-height: 28px !important;
+    pointer-events: none !important;
+    -webkit-text-fill-color: var(--plg-text) !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+.trackSelections .selectContainer:has(select:disabled) .selectArrowContainer,
+.trackSelections .selectContainer:has(.emby-select:disabled) .selectArrowContainer,
+.trackSelections .selectContainer:has(.emby-select-withcolor:disabled) .selectArrowContainer {
+    display: none !important;
 }
 
 /* Motion */
