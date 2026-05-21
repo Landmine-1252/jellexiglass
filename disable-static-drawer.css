@@ -1,0 +1,91 @@
+/*
+Jellexiglass optional override
+
+Import this after theme.css to restore Jellyfin's collapsible desktop drawer:
+@import url("https://cdn.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/disable-static-drawer.css");
+*/
+
+/* Restore Jellyfin's overlay drawer behavior on desktop. */
+.layout-desktop .mainDrawer {
+    left: -320px !important;
+    width: 320px !important;
+    z-index: 1099 !important;
+    border-top-right-radius: var(--plg-radius) !important;
+    border-bottom-right-radius: var(--plg-radius) !important;
+}
+
+.layout-desktop .hide-scroll .mainDrawer,
+.layout-desktop .hideMainDrawer .mainDrawer {
+    left: -320px !important;
+}
+
+.layout-desktop .mainDrawer-scrollContainer {
+    margin-top: 15px !important;
+    padding: 0 10px 18px !important;
+}
+
+.layout-desktop .libraryPage,
+.layout-desktop .quickConnectSettingsContainer {
+    margin-left: 0 !important;
+}
+
+.layout-desktop .touch-menu-la.transition {
+    transition: transform 240ms ease-out, left 260ms ease-out, -webkit-transform 240ms ease-out !important;
+}
+
+.layout-desktop body:not(.hideMainDrawer) .mainDrawerButton {
+    display: inline-flex !important;
+}
+
+.layout-desktop body:not(.hideMainDrawer) .skinHeader:not(.noHomeButtonHeader) .headerHomeButton {
+    display: none !important;
+}
+
+.layout-desktop body:not(.hideMainDrawer) .headerLeft {
+    flex-grow: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+.layout-desktop body:not(.hideMainDrawer) .mainDrawerButton {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 0 !important;
+    border-radius: var(--plg-radius-pill) !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04) 48%, rgba(255, 255, 255, 0.08)),
+        rgba(20, 20, 24, 0.58) !important;
+    border: 1px solid var(--plg-border) !important;
+    -webkit-backdrop-filter: var(--plg-blur) !important;
+    backdrop-filter: var(--plg-blur) !important;
+}
+
+.layout-desktop body:not(.hideMainDrawer) .headerTabs {
+    left: 208px !important;
+    max-width: calc(100vw - 36rem) !important;
+}
+
+.layout-desktop body:not(.hideMainDrawer) div.headerTabs.sectionTabs {
+    position: fixed !important;
+    top: 9px !important;
+    left: 208px !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+}
+
+@supports selector(:has(*)) {
+    .layout-desktop .appfooter:has(.nowPlayingBar:not(.hide)) {
+        margin-left: 18px !important;
+    }
+}

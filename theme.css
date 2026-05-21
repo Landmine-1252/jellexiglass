@@ -1,8 +1,8 @@
 /*
-Plex Liquid Glass for Jellyfin 10.11.9
+Jellexiglass for Jellyfin 10.11.9
 
 Paste this file into Dashboard > Branding > Custom CSS, or host it and import it:
-@import url("https://your-host.example/plex-liquid-glass.css");
+@import url("https://cdn.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/theme.css");
 
 Design intent:
 - Plex-inspired dark cinema surfaces, left desktop rail, and amber accent.
@@ -38,6 +38,7 @@ Design intent:
     --plg-radius: 18px;
     --plg-radius-small: 12px;
     --plg-radius-pill: 999px;
+    --plg-topbar-height: 56px;
     --plg-drawer-width: 248px;
 
     --theme-primary-color: var(--plg-accent);
@@ -110,7 +111,6 @@ a,
 .dialog,
 .actionSheet,
 .paperList,
-.cardBox,
 .homeLibraryButton,
 .itemSelectionPanel,
 .mainDetailButtons,
@@ -155,7 +155,6 @@ a,
     .dialog,
     .actionSheet,
     .paperList,
-    .cardBox,
     .homeLibraryButton,
     .itemSelectionPanel,
     .mainDetailButtons,
@@ -208,61 +207,214 @@ progress::-moz-progress-bar {
 /* Header */
 .skinHeader {
     background:
-        linear-gradient(180deg, rgba(15, 15, 18, 0.72), rgba(15, 15, 18, 0.36)),
-        transparent !important;
-    border-top: 0 !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
+        linear-gradient(180deg, rgba(22, 22, 24, 0.88), rgba(9, 9, 10, 0.76)),
+        rgba(8, 8, 9, 0.84) !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-}
-
-.layout-desktop .skinHeader,
-.layout-tv .skinHeader {
-    padding-top: 1rem !important;
-}
-
-.layout-desktop .pageTitleWithLogo {
-    height: 38px !important;
-    margin-left: 24px !important;
-}
-
-[dir="ltr"] .pageTitle:not(.pageTitleWithLogo):empty {
-    margin: 0 !important;
-}
-
-.headerTabs,
-.headerRight {
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0.1)),
-        rgba(20, 20, 24, 0.58) !important;
-    border: 1px solid var(--plg-border) !important;
-    border-radius: var(--plg-radius-pill) !important;
-    box-shadow: var(--plg-shadow-small) !important;
     -webkit-backdrop-filter: var(--plg-blur) !important;
     backdrop-filter: var(--plg-blur) !important;
 }
 
-.layout-desktop .headerRight,
-.layout-tv .headerRight {
-    height: 44px !important;
-    padding: 0 6px !important;
+.layout-desktop .skinHeader,
+.layout-tv .skinHeader {
+    padding: 0 !important;
 }
 
-.emby-tab-button {
+.layout-desktop .skinHeader {
+    position: fixed !important;
+    inset: 0 0 auto 0 !important;
+    display: block !important;
+    height: var(--plg-topbar-height) !important;
+    min-height: var(--plg-topbar-height) !important;
+    overflow: visible !important;
+    z-index: 1200 !important;
+}
+
+.layout-desktop .skinHeader .headerTop {
+    display: block !important;
+    height: var(--plg-topbar-height) !important;
+    min-height: var(--plg-topbar-height) !important;
+    padding: 0 !important;
+}
+
+.layout-desktop .headerLeft {
+    position: fixed !important;
+    top: 0 !important;
+    left: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: var(--plg-topbar-height) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 1210 !important;
+}
+
+.layout-desktop .pageTitleWithLogo,
+.layout-desktop .skinHeader .pageTitle:not(.pageTitleWithLogo) {
+    display: block !important;
+    flex: 0 0 auto !important;
+    order: 1 !important;
+    width: 116px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    background-image: url("https://cdn.jsdelivr.net/npm/@jellyfin/ux-web@1.0.0/banner-light.png") !important;
+    background-position: center left !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+.layout-desktop .mainDrawerButton {
+    display: none !important;
+}
+
+.layout-desktop .headerBackButton {
+    order: 2 !important;
+    position: relative !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: var(--plg-radius-pill) !important;
+    z-index: 3 !important;
+}
+
+.layout-desktop .headerBackButton:not(.hide) {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.layout-desktop .headerBackButton:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.layout-desktop .headerHomeButton {
+    position: absolute !important;
+    order: 0 !important;
+    left: 0 !important;
+    top: 50% !important;
+    width: 116px !important;
     height: 40px !important;
+    min-width: 116px !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: translateY(-50%) !important;
+    opacity: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 2 !important;
+}
+
+.headerTabs,
+.headerRight {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+.layout-desktop .headerTabs,
+.layout-desktop .sectionTabs,
+.layout-desktop div.headerTabs.sectionTabs {
+    position: fixed !important;
+    top: 9px !important;
+    left: 200px !important;
+    right: auto !important;
+    bottom: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 36rem) !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    transform: none !important;
+    z-index: 1211 !important;
+}
+
+.layout-desktop .emby-tab-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 12px !important;
+    border-radius: var(--plg-radius-pill) !important;
+    color: var(--plg-muted) !important;
+    font-weight: 520 !important;
+}
+
+.layout-desktop .emby-tab-button:hover,
+.layout-desktop .emby-tab-button-active {
+    color: var(--plg-text) !important;
+}
+
+.layout-desktop .headerTabs .emby-tab-button-active {
+    background: rgba(var(--plg-accent-rgb), 0.18) !important;
+    color: var(--plg-accent-strong) !important;
+}
+
+.layout-desktop .headerRight,
+.layout-desktop div.headerRight {
+    position: fixed !important;
+    top: 9px !important;
+    right: 18px !important;
+    left: auto !important;
+    bottom: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 4px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 36rem) !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    z-index: 1212 !important;
+}
+
+.layout-desktop .headerRight .paper-icon-button-light,
+.layout-desktop .headerRight .emby-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
     border-radius: var(--plg-radius-pill) !important;
     color: var(--plg-muted) !important;
 }
 
-.emby-tab-button:hover,
-.emby-tab-button-active {
+.layout-desktop .headerRight .paper-icon-button-light:hover,
+.layout-desktop .headerRight .emby-button:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
     color: var(--plg-text) !important;
-}
-
-.headerTabs .emby-tab-button-active {
-    background: var(--plg-accent-soft) !important;
-    color: var(--plg-accent-strong) !important;
 }
 
 .skinHeader-withBackground.osdHeader {
@@ -274,27 +426,32 @@ progress::-moz-progress-bar {
 }
 
 /* Plex-style desktop rail */
+.mainDrawer {
+    --plg-nav-row-height: 38px;
+    --plg-nav-row-gap: 12px;
+    --plg-nav-row-padding-x: 14px;
+    --plg-nav-icon-width: 24px;
+    --plg-nav-hover-bg: rgba(255, 255, 255, 0.075);
+    --plg-nav-selected-bg: rgba(var(--plg-accent-rgb), 0.16);
+    --plg-nav-focus-ring: rgba(var(--plg-accent-rgb), 0.46);
+}
+
 .layout-desktop .mainDrawer {
     left: 0 !important;
-    top: 0 !important;
+    top: var(--plg-topbar-height) !important;
     width: var(--plg-drawer-width) !important;
+    height: calc(100vh - var(--plg-topbar-height)) !important;
     z-index: 998 !important;
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)),
-        rgba(10, 10, 12, 0.72) !important;
-    border-top: 0 !important;
-    border-left: 0 !important;
-    border-bottom: 0 !important;
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+        rgba(11, 11, 13, 0.78) !important;
+    border: 0 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
 }
 
 .layout-desktop .mainDrawer-scrollContainer {
-    margin-top: 92px !important;
-    padding: 0 10px 18px !important;
-}
-
-.layout-desktop .mainDrawerButton,
-.layout-desktop .headerHomeButton {
-    display: none !important;
+    margin-top: 0 !important;
+    padding: 12px 10px 18px !important;
 }
 
 .layout-desktop .libraryPage,
@@ -307,32 +464,110 @@ progress::-moz-progress-bar {
     left: calc(var(--plg-drawer-width) * -1 - 32px) !important;
 }
 
-.navMenuOption,
-.navMenuOption:hover,
-.navMenuOption-selected {
+/* Keep every drawer row on the same box model in every state. */
+.mainDrawer .navMenuOption,
+.drawerContent .navMenuOption,
+.mainDrawer .navMenuOption:hover,
+.drawerContent .navMenuOption:hover,
+.mainDrawer .navMenuOption:focus,
+.drawerContent .navMenuOption:focus,
+.mainDrawer .navMenuOption-selected,
+.drawerContent .navMenuOption-selected {
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    column-gap: var(--plg-nav-row-gap) !important;
     width: auto !important;
-    min-height: 42px !important;
-    margin: 3px 8px !important;
+    min-width: 0 !important;
+    min-height: var(--plg-nav-row-height) !important;
+    height: var(--plg-nav-row-height) !important;
+    margin: 2px 8px !important;
+    padding: 0 var(--plg-nav-row-padding-x) !important;
+    border: 0 !important;
     border-radius: var(--plg-radius-pill) !important;
+    outline: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
     color: var(--plg-muted) !important;
-    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transform: none !important;
+    transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease, opacity 140ms ease !important;
 }
 
-.navMenuOptionIcon,
-.navMenuOptionText {
+/* Lock icon and label alignment so hover/selected cannot push content around. */
+.mainDrawer .navMenuOptionIcon,
+.mainDrawer .navMenuOptionText,
+.drawerContent .navMenuOptionIcon,
+.drawerContent .navMenuOptionText {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin-top: 0 !important;
     color: inherit !important;
+    line-height: 1 !important;
 }
 
-.navMenuOption:hover:not(.navMenuOption-selected) {
-    background: var(--plg-glass-hover) !important;
+.mainDrawer .navMenuOptionIcon,
+.drawerContent .navMenuOptionIcon {
+    flex: 0 0 var(--plg-nav-icon-width) !important;
+    width: var(--plg-nav-icon-width) !important;
+    min-width: var(--plg-nav-icon-width) !important;
+    max-width: var(--plg-nav-icon-width) !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.mainDrawer .navMenuOptionText,
+.drawerContent .navMenuOptionText {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    font-weight: inherit !important;
+    line-height: 1.2 !important;
+}
+
+/* Hover only changes paint, never position or dimensions. */
+.mainDrawer .navMenuOption:hover:not(.navMenuOption-selected),
+.drawerContent .navMenuOption:hover:not(.navMenuOption-selected) {
+    background-color: var(--plg-nav-hover-bg) !important;
     color: var(--plg-text) !important;
-    transform: translateX(2px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.055) !important;
+    transform: none !important;
 }
 
-.navMenuOption-selected {
-    background: var(--plg-accent-soft) !important;
-    border: 1px solid rgba(var(--plg-accent-rgb), 0.42) !important;
+/* Selected state gets a stronger pill and inset accent without adding layout width. */
+.mainDrawer .navMenuOption-selected,
+.drawerContent .navMenuOption-selected {
+    background-color: var(--plg-nav-selected-bg) !important;
     color: var(--plg-accent-strong) !important;
+    box-shadow:
+        inset 3px 0 0 var(--plg-accent),
+        inset 0 0 0 1px rgba(var(--plg-accent-rgb), 0.28) !important;
+    transform: none !important;
+}
+
+/* Keyboard focus stays visible while preserving the same row metrics. */
+.mainDrawer .navMenuOption:focus-visible,
+.drawerContent .navMenuOption:focus-visible {
+    background-color: rgba(255, 255, 255, 0.055) !important;
+    color: var(--plg-accent-strong) !important;
+    box-shadow:
+        inset 0 0 0 2px var(--plg-nav-focus-ring),
+        0 0 0 2px rgba(var(--plg-accent-rgb), 0.14) !important;
+    transform: none !important;
+}
+
+.mainDrawer .navMenuOption-selected:focus-visible,
+.drawerContent .navMenuOption-selected:focus-visible {
+    background-color: var(--plg-nav-selected-bg) !important;
+    box-shadow:
+        inset 3px 0 0 var(--plg-accent),
+        inset 0 0 0 2px var(--plg-nav-focus-ring),
+        0 0 0 2px rgba(var(--plg-accent-rgb), 0.14) !important;
 }
 
 .layout-mobile .mainDrawer {
@@ -349,7 +584,7 @@ progress::-moz-progress-bar {
 }
 
 .itemsContainer > .card > .cardBox {
-    background: transparent !important;
+    background-color: transparent !important;
     border-color: rgba(255, 255, 255, 0.07) !important;
 }
 
@@ -375,7 +610,7 @@ progress::-moz-progress-bar {
 }
 
 .cardContent {
-    background: rgba(255, 255, 255, 0.035) !important;
+    background-color: rgba(255, 255, 255, 0.035) !important;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.36) !important;
 }
 
@@ -497,9 +732,18 @@ progress::-moz-progress-bar {
 }
 
 .backgroundContainer.withBackdrop {
+    background-color: transparent !important;
+    position: fixed !important;
+}
+
+.backgroundContainer.withBackdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background:
         linear-gradient(90deg, var(--plg-bg) 0%, rgba(7, 7, 8, 0.72) 32%, rgba(7, 7, 8, 0.2) 68%),
-        linear-gradient(0deg, var(--plg-bg) 0%, rgba(7, 7, 8, 0) 46%) !important;
+        linear-gradient(0deg, var(--plg-bg) 0%, rgba(7, 7, 8, 0) 46%);
 }
 
 .detailRibbon,
@@ -515,6 +759,13 @@ progress::-moz-progress-bar {
 
 .layout-desktop .detailPagePrimaryContent {
     max-width: 78rem;
+}
+
+.layout-desktop .detailSection {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
 }
 
 .layout-desktop .detailImageContainer .card {
@@ -556,19 +807,86 @@ progress::-moz-progress-bar {
 
 .layout-desktop .detailSectionContent,
 .layout-desktop .trackSelections {
+    width: min(100%, 44rem) !important;
+    max-width: 100% !important;
+    margin: 0 !important;
     padding: 18px 22px !important;
 }
 
-.layout-desktop .detailsGroupItem {
-    width: fit-content !important;
+.layout-desktop .itemDetailsGroup {
+    width: min(100%, 44rem) !important;
     max-width: 100% !important;
+    margin: 0 !important;
+    padding: 8px 0 !important;
+    border-radius: var(--plg-radius) !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.035) 45%, rgba(255, 255, 255, 0.07)),
+        rgba(18, 18, 22, 0.54) !important;
+    border: 1px solid var(--plg-border) !important;
+    box-shadow: var(--plg-shadow-small) !important;
+    -webkit-backdrop-filter: var(--plg-blur) !important;
+    backdrop-filter: var(--plg-blur) !important;
+    overflow: hidden !important;
+}
+
+.layout-desktop .itemDetailsGroup:not(:has(> .detailsGroupItem:not(.hide))) {
+    display: none !important;
+}
+
+.itemDetailsGroup > .detailsGroupItem.hide {
+    display: none !important;
+}
+
+.layout-desktop .detailsGroupItem {
+    display: grid !important;
+    grid-template-columns: minmax(6rem, 8rem) minmax(0, 1fr) !important;
+    align-items: start !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
     padding: 10px 16px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+.layout-desktop .detailsGroupItem.hide {
+    display: none !important;
+}
+
+.layout-desktop .detailsGroupItem:not(.hide) ~ .detailsGroupItem:not(.hide) {
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .detailsGroupItem .label,
 .trackSelections .selectContainer .selectLabel {
     color: var(--plg-dim) !important;
     min-width: 70px;
+}
+
+.layout-desktop .detailsGroupItem .label {
+    min-width: 0 !important;
+    margin: 0 !important;
+    color: var(--plg-dim) !important;
+    font-weight: 600 !important;
+}
+
+.layout-desktop .detailsGroupItem .content {
+    min-width: 0 !important;
+    color: var(--plg-text) !important;
+    line-height: 1.35 !important;
+}
+
+.layout-desktop .detailsGroupItem .button-link {
+    display: inline !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+    color: var(--plg-accent-strong) !important;
+    background: transparent !important;
 }
 
 .overview {
@@ -660,7 +978,7 @@ option {
 }
 
 #loginPage .squareCard .cardBox {
-    background: transparent !important;
+    background-color: transparent !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
@@ -844,6 +1162,108 @@ option {
     .layout-mobile .emby-tab-button {
         padding-inline: 0.75em !important;
     }
+}
+
+/* Card hit-area and cursor honesty
+   Keeps decorative card surfaces from promising clicks unless a real Jellyfin
+   card target can own the expanded hit area. */
+.itemsContainer > .card {
+    cursor: default !important;
+}
+
+.itemsContainer > .card > .cardBox {
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: visible !important;
+    cursor: default !important;
+}
+
+/* Replace the broad .cardBox:hover lift so blank decorative space does not
+   animate like a link before we know there is a clickable target under it. */
+.itemsContainer > .card > .cardBox:hover {
+    transform: none !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: none !important;
+}
+
+/* Decorative card pieces keep a default cursor. Real links/buttons below
+   opt back into pointer behavior. */
+.itemsContainer > .card > .cardBox :is(
+    .cardContent,
+    .cardPadder,
+    .cardOverlayContainer,
+    .cardImageContainer,
+    .cardText,
+    .cardText-secondary,
+    .innerCardFooter
+) {
+    cursor: default !important;
+}
+
+/* Real Jellyfin card targets. The pseudo-element belongs to the clickable
+   target, so clicks still go to Jellyfin's own link/button handler. */
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]),
+.itemsContainer > .card > .cardBox > :is(a[href], button, [role="button"], [data-action]),
+.itemsContainer > .card > .cardBox > .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer),
+.itemsContainer > .card > .cardBox :is(.textActionButton, .button-link),
+.itemsContainer > .card > .cardBox .cardText :is(a[href], button, [role="button"], [data-action]) {
+    cursor: pointer !important;
+}
+
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action])::after,
+.itemsContainer > .card > .cardBox > :is(a[href], button, [role="button"], [data-action])::after,
+.itemsContainer > .card > .cardBox > .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer)::after,
+.itemsContainer > .card > .cardBox :is(.textActionButton, .button-link)::after,
+.itemsContainer > .card > .cardBox .cardText :is(a[href], button, [role="button"], [data-action])::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: block;
+    border-radius: var(--plg-radius-small);
+    background: transparent;
+    pointer-events: auto;
+}
+
+/* Restore the polished hover lift only when the hover is on a real card target
+   or an expanded target pseudo-element, not merely on empty card chrome. */
+.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
+.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
+.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
+.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
+.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover),
+.itemsContainer > .card > .cardBox:focus-within {
+    transform: translateY(-5px) scale(1.018) !important;
+    border-color: var(--plg-border-strong) !important;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48) !important;
+}
+
+/* Overlay controls must stay above the expanded card target. */
+.itemsContainer > .card > .cardBox .cardOverlayContainer,
+.itemsContainer > .card > .cardBox .cardOverlayContainer :is(button, [role="button"], [data-action], .emby-button, .paper-icon-button-light),
+.itemsContainer > .card > .cardBox :is(
+    .cardOverlayButton,
+    .cardOverlayFab,
+    .cardOverlayMenu,
+    .cardOverlayButtonIcon,
+    .itemActionButton,
+    .paper-icon-button-light,
+    .emby-button
+) {
+    position: relative !important;
+    z-index: 20 !important;
+}
+
+.itemsContainer > .card > .cardBox .cardOverlayContainer :is(button, [role="button"], [data-action], .emby-button, .paper-icon-button-light),
+.itemsContainer > .card > .cardBox :is(
+    .cardOverlayButton,
+    .cardOverlayFab,
+    .cardOverlayMenu,
+    .itemActionButton,
+    .paper-icon-button-light,
+    .emby-button
+) {
+    cursor: pointer !important;
 }
 
 /* Motion */
