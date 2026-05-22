@@ -34,7 +34,7 @@ Design intent:
     --plg-dim: rgba(255, 255, 255, 0.44);
     --plg-shadow: 0 20px 50px rgba(0, 0, 0, 0.42);
     --plg-shadow-small: 0 10px 26px rgba(0, 0, 0, 0.32);
-    --plg-blur: blur(26px) saturate(170%);
+    --plg-blur: blur(18px) saturate(145%);
     --plg-radius: 18px;
     --plg-radius-small: 12px;
     --plg-radius-pill: 999px;
@@ -1161,120 +1161,6 @@ option {
     }
 }
 
-/* Media card hover shadow refinement
-   Replaces heavy rectangular card shadows with softer image-surface elevation
-   without changing Jellyfin's native click or overlay behavior. */
-.itemsContainer > .card > .cardBox {
-    background-color: transparent !important;
-    box-shadow: none !important;
-    transition:
-        transform 160ms ease,
-        border-color 160ms ease,
-        background-color 160ms ease !important;
-}
-
-/* Blank/decorative card space should not cast a big panel shadow. */
-.itemsContainer > .card > .cardBox:hover {
-    transform: none !important;
-    border-color: rgba(255, 255, 255, 0.07) !important;
-    box-shadow: none !important;
-}
-
-/* The visual media surface gets the default soft depth, not the text area. */
-.itemsContainer > .card > .cardBox :is(.cardContent, .cardImageContainer) {
-    border-radius: var(--plg-radius-small) !important;
-    overflow: hidden !important;
-    box-shadow:
-        0 6px 14px rgba(0, 0, 0, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.075) !important;
-    transition:
-        box-shadow 160ms ease,
-        filter 160ms ease,
-        background-color 160ms ease !important;
-}
-
-.itemsContainer > .card > .cardBox :is(.cardOverlayContainer, .innerCardFooter, .fullInnerCardFooter) {
-    border-radius: var(--plg-radius-small) !important;
-    box-shadow: none !important;
-}
-
-/* Hover feedback stays visual only: no expanded click targets or overlay
-   layering changes. */
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
-    transform: none !important;
-    border-color: rgba(255, 255, 255, 0.18) !important;
-    box-shadow: none !important;
-}
-
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer) {
-    box-shadow:
-        0 10px 22px rgba(0, 0, 0, 0.28),
-        0 2px 7px rgba(0, 0, 0, 0.18),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.11),
-        0 0 14px rgba(var(--plg-accent-rgb), 0.08) !important;
-    filter: none !important;
-}
-
-/* Wide episode/backdrop cards get a slightly flatter shadow so they do not
-   read as a dark rectangle under the row. */
-.itemsContainer > .card:is(.backdropCard, .overflowBackdropCard) > .cardBox:has(:is(a[href], button, [role="button"], [data-action], .textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer) {
-    box-shadow:
-        0 8px 18px rgba(0, 0, 0, 0.24),
-        0 2px 6px rgba(0, 0, 0, 0.16),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-        0 0 12px rgba(var(--plg-accent-rgb), 0.07) !important;
-}
-
-/* Portrait, season, square, and people cards stay tighter to avoid a black
-   block below the poster or cast label. */
-.itemsContainer > .card:is(.portraitCard, .overflowPortraitCard, .squareCard, .overflowSquareCard) > .cardBox:has(:is(a[href], button, [role="button"], [data-action], .textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer) {
-    box-shadow:
-        0 9px 20px rgba(0, 0, 0, 0.26),
-        0 2px 6px rgba(0, 0, 0, 0.16),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.11),
-        0 0 12px rgba(var(--plg-accent-rgb), 0.075) !important;
-}
-
-/* Text and footer regions should remain readable without casting blocky depth. */
-.itemsContainer > .card > .cardBox :is(.cardText, .cardText-secondary, .textActionButton, .button-link) {
-    box-shadow: none !important;
-    text-shadow: none !important;
-}
-
-/* Keyboard focus remains visible, but the ring lives on the media surface. */
-.itemsContainer > .card > .cardBox:focus-within {
-    transform: none !important;
-    border-color: rgba(var(--plg-accent-rgb), 0.46) !important;
-    box-shadow: none !important;
-}
-
-.itemsContainer > .card > .cardBox:focus-within :is(.cardContent, .cardImageContainer) {
-    box-shadow:
-        0 7px 16px rgba(0, 0, 0, 0.22),
-        inset 0 0 0 2px rgba(var(--plg-accent-rgb), 0.64) !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .itemsContainer > .card > .cardBox,
-    .itemsContainer > .card > .cardBox:hover,
-    .itemsContainer > .card > .cardBox:focus-within {
-        transform: none !important;
-    }
-
-    .itemsContainer > .card > .cardBox:hover :is(.cardContent, .cardImageContainer),
-    .itemsContainer > .card > .cardBox:focus-within :is(.cardContent, .cardImageContainer) {
-        filter: none !important;
-    }
-}
-
 /* Select and dropdown alignment refinement
    Fixes cramped closed select text in media track rows while preserving the
    glassy dark control style and amber focus treatment. */
@@ -1636,56 +1522,6 @@ a,
     text-align: center !important;
 }
 
-/* Cleaner cards: remove outer block shadows; keep subtle depth on media only. */
-.itemsContainer > .card > .cardBox {
-    background-color: transparent !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-}
-
-.itemsContainer > .card > .cardBox :is(.cardContent, .cardImageContainer) {
-    background-color: rgba(255, 255, 255, 0.035) !important;
-    border-radius: var(--plg-radius-small) !important;
-    overflow: hidden !important;
-    box-shadow:
-        0 8px 18px rgba(0, 0, 0, 0.26),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.045) !important;
-}
-
-.itemsContainer > .card > .cardBox:hover {
-    transform: none !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-}
-
-/* Hover feedback stays visual only and lets Jellyfin keep native card actions. */
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
-    transform: none !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-}
-
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer) {
-    filter: none !important;
-    box-shadow:
-        0 10px 24px rgba(0, 0, 0, 0.30),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.09),
-        0 0 12px rgba(var(--plg-accent-rgb), 0.07) !important;
-}
-
-.itemsContainer > .card > .cardBox :is(.cardText, .cardText-secondary) {
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
 /* Progress and primary accents remain Plex-like amber. */
 .itemProgressBarForeground,
 .mdl-slider-background-lower,
@@ -1850,12 +1686,7 @@ select,
 .itemsContainer > .card > .cardBox:hover,
 .itemsContainer > .card > .cardBox:focus-within,
 .itemsContainer > .card:focus > .cardBox,
-.itemsContainer > .card:focus-visible > .cardBox,
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox,
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) {
+.itemsContainer > .card:focus-visible > .cardBox {
     transform: none !important;
     box-shadow: none !important;
 }
@@ -1875,22 +1706,16 @@ select,
 /* Hover ring and subtle inset brightening; no filter on containers that may
    include text or controls. */
 .itemsContainer > .card > .cardBox:hover :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card:is(a[href], button, [role="button"], [data-action]):hover > .cardBox :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(> .cardScalable > :is(a[href], button, [role="button"], [data-action]):is(.cardContent, .cardImageContainer):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) :is(.cardContent, .cardImageContainer),
-.itemsContainer > .card > .cardBox:has(.cardText :is(a[href], button, [role="button"], [data-action]):hover) :is(.cardContent, .cardImageContainer) {
+.itemsContainer > .card:focus > .cardBox :is(.cardContent, .cardImageContainer),
+.itemsContainer > .card:focus-visible > .cardBox :is(.cardContent, .cardImageContainer) {
     filter: none !important;
     box-shadow:
         inset 0 0 0 1px rgba(var(--plg-accent-rgb), 0.70),
-        inset 0 0 0 999px rgba(255, 255, 255, 0.025),
         0 8px 18px rgba(0, 0, 0, 0.26) !important;
 }
 
 /* If Jellyfin renders a separate image node, brighten only that node. */
-.itemsContainer > .card > .cardBox:hover .cardImage,
-.itemsContainer > .card > .cardBox:has(> :is(a[href], button, [role="button"], [data-action]):hover) .cardImage,
-.itemsContainer > .card > .cardBox:has(:is(.textActionButton, .button-link):hover) .cardImage {
+.itemsContainer > .card > .cardBox:hover .cardImage {
     filter: brightness(1.055) saturate(1.035) !important;
 }
 
