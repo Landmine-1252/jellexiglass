@@ -9,21 +9,15 @@ Built around Jellyfin 10.11.9.
 Add this in **Dashboard > Branding > Custom CSS**:
 
 ```css
-@import url("https://cdn.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/theme.css");
+@import url("https://landmine-1252.github.io/jellexiglass/theme.css");
 ```
 
 Save, then hard refresh Jellyfin.
 
-If jsDelivr serves an old copy, purge the CDN cache:
-
-```text
-https://purge.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/theme.css
-```
-
-Then bump the query string:
+If the browser keeps an old copy, bump the query string:
 
 ```css
-@import url("https://cdn.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/theme.css?v=2");
+@import url("https://landmine-1252.github.io/jellexiglass/theme.css?v=20260521");
 ```
 
 ## Local Testing
@@ -47,8 +41,8 @@ If you are testing from another device, replace `127.0.0.1` with your computer's
 Use Jellyfin's normal collapsible drawer instead of the static sidebar:
 
 ```css
-@import url("https://cdn.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/theme.css");
-@import url("https://cdn.jsdelivr.net/gh/Landmine-1252/jellexiglass@main/disable-static-drawer.css");
+@import url("https://landmine-1252.github.io/jellexiglass/theme.css");
+@import url("https://landmine-1252.github.io/jellexiglass/disable-static-drawer.css");
 ```
 
 ## Notes
@@ -56,4 +50,4 @@ Use Jellyfin's normal collapsible drawer instead of the static sidebar:
 - Use Jellyfin's dark theme.
 - The web app works best.
 - GitHub raw URLs are not recommended for imports because they are served as plain text.
-- For a stable install, pin the import to a commit hash instead of `@main`.
+- GitHub Pages may take a minute or two to update after pushing changes.
